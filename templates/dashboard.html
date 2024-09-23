@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Tenant Performance Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Tenant Performance Dashboard</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+        const data = {{ data|tojson }};
+        const labels = data.map(d => d.hour);
+        const datasets = data.reduce((acc, d) => {
+            let ds = acc.find(ds => ds.label === d.tenant_id + ' - ' + d.metric_name);
+            if (!ds) {
+                ds = {label: d.tenant_id + ' - ' + d.metric_name, data: [], fill: false, borderColor: 'randomColorHere'};
+                acc.push(ds);
+            }
+            ds.data.push(d.avg_metric_value);
+            return acc;
+        }, []);
+
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: 'hour'
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</body>
+</html>
