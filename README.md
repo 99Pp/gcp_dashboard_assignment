@@ -62,3 +62,4 @@ The architecture of this project involves the following components:
 4. **Install Python Dependencies**
    ```
    Follow Design Document for detailed steps
+   https://docs.google.com/document/d/1SDkCsAAZTMoyZjBmKagXywz9iKa4Nr14e1t_42jbOCs/edit?usp=sharing
