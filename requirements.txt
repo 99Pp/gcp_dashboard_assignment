@@ -1,0 +1,6 @@
+google-cloud-pubsub
+google-cloud-monitoring
+apache-beam[gcp]
+flask
+pandas
+google-cloud-bigquery
